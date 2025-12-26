@@ -1,6 +1,3 @@
-#ifndef DATABASE_MANAGER_H
-#define DATABASE_MANAGER_H
-
 #include <sqlite3.h>
 #include <string>
 #include <vector>
@@ -89,17 +86,18 @@ public:
         {
             cerr << "SQL Error: " << errMsg << endl;
             sqlite3_free(errMsg);
+            return false;
         }
         else
             cout << "Query excuted successfully\n";
-        
+        return true;
     }
 
     // 4. Read Operations (SELECT)
     // Executes a query and stores the result in the 'result' vector.
     // Result format: Vector of Rows, where each Row is a Vector of Strings (Columns).
     // Returns true if successful.
-    bool select(const char* query, vector<Task>& result, int)
+    bool select(const char* query, vector<Task>& result)
     {
         sqlite3_stmt* stmt;
 
@@ -154,7 +152,7 @@ public:
         }
     }
 
-    bool select(const char* query, vector<User>& result, int)
+    bool select(const char* query, vector<User>& result)
     {
         sqlite3_stmt* stmt;
 
@@ -189,5 +187,3 @@ public:
     // Returns the last error message from SQLite
     string getLastError();
 };
-
-#endif

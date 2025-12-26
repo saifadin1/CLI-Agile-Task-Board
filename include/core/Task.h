@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <iostream>
 #include <chrono>
@@ -19,6 +21,22 @@ private:
 public:
     Task(int id, string title, string description, Date dueDate, Priority priority, TaskStatus TaskStatus, int assigneeId);
     ~Task();
+
+    int getId() const;
+    string getTitle() const;
+    string getDescription() const;
+    Date getDueDate() const;
+    Priority getPriority() const;
+    TaskStatus getStatus() const;
+    int getAssigneeId() const;
+    void setId(int id);
+    void setTitle(const string& title);
+    void setDescription(const string& description);
+    void setDueDate(const Date& dueDate);
+    void setPriority(const Priority& priority);
+    void setStatus(const TaskStatus& status);
+    void setAssigneeId(int assigneeId);
+    
 };
 
 // NOTE: THIS HOW THE TABLE WILL LOOK IN THE DATEBASE!!

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <string>
 #include <databaseManager.h>
@@ -15,14 +17,14 @@ public:
 
     ~TaskDAO();
 
-    void updateUser(const User& _user);
-    void updateTask(const Task& _task);
+    bool updateUser(const User& _user);
+    bool updateTask(const Task& _task);
 
-    void createUser(const User& _user);
-    void createTask(const Task& _task);
+    bool createUser(const User& _user);
+    bool createTask(const Task& _task);
 
-    void deleteUser(const User& _user);
-    void deleteTask(const Task& _task);
+    bool deleteUser(const User& _user);
+    bool deleteTask(const Task& _task);
 
     User* selectUser(int _userId);
     Task* selectTask(int _taskId);
