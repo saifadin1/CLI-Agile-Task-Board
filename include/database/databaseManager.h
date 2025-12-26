@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "Task.h"
-#include "User.h"
+#include <Task.h>
+#include <User.h>
 
 using namespace std;
 
@@ -14,6 +14,9 @@ class DatabaseManager {
 private:
     // Singleton instance pointer
     static DatabaseManager* instance;
+
+    int rc;
+    char* errMsg;
     
     // The actual SQLite connection object
     sqlite3* dbConnection;
@@ -34,15 +37,15 @@ public:
 
     // 3. Write Operations (INSERT, UPDATE, DELETE, CREATE)
     // Executes a query that changes data. Returns true if successful.
-    bool exec(const string& sql);
+    bool exec(const char* query);
 
     // 4. Read Operations (SELECT)
     // Executes a query and stores the result in the 'result' vector.
     // Result format: Vector of Rows, where each Row is a Vector of Strings (Columns).
     // Returns true if successful.
-    bool select(const string& sql, vector<Task>& result);
+    bool select(const char* query, vector<Task>& result);
 
-    bool select(const string& sql, vector<User>& result);
+    bool select(const char* query, vector<User>& result);
 
     // 5. Utility Functions
     // Returns the ID of the last row inserted (useful after creating a Task)

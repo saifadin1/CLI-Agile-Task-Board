@@ -4,8 +4,8 @@
 #include <string>
 #include <databaseManager.h>
 #include "TaskDAO.h"
-#include "User.h"
-#include "Task.h"
+#include <User.h>
+#include <Task.h>
 using namespace std;
 
 
