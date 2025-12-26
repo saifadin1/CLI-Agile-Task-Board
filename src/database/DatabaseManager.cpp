@@ -2,36 +2,36 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "Task.h"
-#include "Date.h"
-#include "TaskStatus.h"
-#include "Priority.h"
-#include "User.h"
+#include <Task.h>
+#include <Date.h>
+#include <TaskStatus.h>
+#include <Priority.h>
+#include <User.h>
+#include <databaseManager.h>
+
 
 
 using namespace std;
 using namespace std::chrono;
 
-class DatabaseManager {
-private:
-    // Singleton instance pointer
-    static DatabaseManager* instance;
 
-    int rc;
+    DatabaseManager* DatabaseManager::instance = nullptr;
+
+    int rc = 0;
     char* errMsg = 0;
     
     // The actual SQLite connection object
     sqlite3* dbConnection;
     
     // Private Constructor (so no one can create a second instance)
-    DatabaseManager()
+    DatabaseManager::DatabaseManager()
     {
         dbConnection = nullptr;
     }
 
-public:
+
     // 1. Singleton Access
-    static DatabaseManager* getInstance()
+    DatabaseManager* DatabaseManager::getInstance()
     {
         if (instance == nullptr)
             instance = new DatabaseManager();
@@ -41,7 +41,7 @@ public:
 
     // 2. Lifecycle Management
     // Opens the database file. Returns true if successful.
-    bool connect(const string& dbPath = "data/agile_board.db")
+    bool DatabaseManager::connect(const string& dbPath)
     {
         if(dbConnection != nullptr)
         {
@@ -65,7 +65,7 @@ public:
     }
     
     // Closes the connection.
-    void disconnect()
+    void DatabaseManager::disconnect()
     {
         if(dbConnection == nullptr)
             return;
@@ -77,7 +77,7 @@ public:
 
     // 3. Write Operations (INSERT, UPDATE, DELETE, CREATE)
     // Executes a query that changes data. Returns true if successful.
-    bool exec(const char* query)
+    bool DatabaseManager::exec(const char* query)
     {   
         char* errMsg = 0;
         int rc = sqlite3_exec(dbConnection, query, nullptr, nullptr, &errMsg);
@@ -97,7 +97,7 @@ public:
     // Executes a query and stores the result in the 'result' vector.
     // Result format: Vector of Rows, where each Row is a Vector of Strings (Columns).
     // Returns true if successful.
-    bool select(const char* query, vector<Task>& result)
+    bool DatabaseManager::select(const char* query, vector<Task>& result)
     {
         sqlite3_stmt* stmt;
 
@@ -150,9 +150,12 @@ public:
 
             result.push_back(t);
         }
+
+        sqlite3_finalize(stmt);
+        return true;
     }
 
-    bool select(const char* query, vector<User>& result)
+    bool DatabaseManager::select(const char* query, vector<User>& result)
     {
         sqlite3_stmt* stmt;
 
@@ -178,12 +181,18 @@ public:
 
             result.push_back(u);
         }
+
+        sqlite3_finalize(stmt);
+        return true;
     }
 
     // 5. Utility Functions
     // Returns the ID of the last row inserted (useful after creating a Task)
-    int getLastInsertId();
+    int DatabaseManager::getLastInsertId() {
+        return sqlite3_last_insert_rowid(dbConnection);
+    }
     
     // Returns the last error message from SQLite
-    string getLastError();
-};
+    string DatabaseManager::getLastError() {
+        return sqlite3_errmsg(dbConnection);
+    }

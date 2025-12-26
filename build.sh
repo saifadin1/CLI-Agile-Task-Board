@@ -26,11 +26,24 @@ if [ -f "$OUTPUT" ]; then
     rm "$OUTPUT"
 fi
 
+# 2.5. Ensure data directory exists
+echo -e "${CYAN}📁  Ensuring data directory exists...${RESET}"
+mkdir -p data
+
 # 3. Compilation Step
 echo -e "${BOLD}🚀  Compiling sources...${RESET}"
 
 # Note: We are using -x c for sqlite3 to treat it explicitly as C code
-g++ src/main.cpp -x c lib/sqlite3/sqlite3.c -I include -I lib/sqlite3 -o "$OUTPUT"
+# Compile all .cpp files in src/ directory recursively
+g++ src/*.cpp \
+    src/core/*.cpp \
+    src/database/*.cpp \
+    -x c lib/sqlite3/sqlite3.c \
+    -I include \
+    -I include/core \
+    -I include/database \
+    -I lib/sqlite3 \
+    -o "$OUTPUT"
 
 # 4. Check Status & Run
 if [ $? -eq 0 ]; then
