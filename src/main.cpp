@@ -1,7 +1,11 @@
 #include <iostream>
-int main() {
 
-    std::cout << "i love sherbiny";
+using namespace std;
+
+int main() 
+{
+
+    cout << "i love Sherbiny and Fathi ❤️";
 
     return 0;
 }

@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "Task.h"
+#include "User.h"
 
 using namespace std;
 
@@ -38,7 +40,9 @@ public:
     // Executes a query and stores the result in the 'result' vector.
     // Result format: Vector of Rows, where each Row is a Vector of Strings (Columns).
     // Returns true if successful.
-    bool select(const string& sql, vector<vector<string>>& result);
+    bool select(const string& sql, vector<Task>& result);
+
+    bool select(const string& sql, vector<User>& result);
 
     // 5. Utility Functions
     // Returns the ID of the last row inserted (useful after creating a Task)

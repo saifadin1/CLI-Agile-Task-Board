@@ -9,5 +9,4 @@ public:
     void displayBoard(vector <Task>);
     void showTaskDetails(Task ts);
     void showError(string mesg);
-
 };
