@@ -20,3 +20,8 @@ void setColor(int color)
 {
     cout << "\033[" << color << "m";
 }
+
+void resetColor()
+{
+    cout << "\033[0m";
+}
