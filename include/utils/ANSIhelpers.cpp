@@ -15,3 +15,8 @@ void moveCursor(int row, int col)
 {
     cout << "\033[" << row << ";" << col << "H";
 }
+
+void setColor(int color)
+{
+    cout << "\033[" << color << "m";
+}
