@@ -1,5 +1,5 @@
-#include "User.h"
 #include <string>
+#include "User.h"
 #include "TaskDAO.h"
 
 class Auth
@@ -19,6 +19,7 @@ private:
     // it will take a string by refrence which is the password and it is going to hash it 
     void hashing(string& password);
 
+    // this object will only be used in the start function to query from database
     TaskDAO _DAO;
 
 public:

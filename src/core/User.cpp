@@ -1,4 +1,4 @@
-#include <User.h>
+#include "User.h"
 
 User::User(int id, string userName, string hashedPassword)
     : _id(id), _userName(userName), _hashedPassword(hashedPassword)
