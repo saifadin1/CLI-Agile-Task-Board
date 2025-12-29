@@ -2,10 +2,10 @@
 #include <sqlite3.h>
 #include <vector>
 #include <string>
-#include <databaseManager.h>
+#include "DatabaseManager.h"
 #include "TaskDAO.h"
-#include <User.h>
-#include <Task.h>
+#include "User.h"
+#include "Task.h"
 using namespace std;
 
 
