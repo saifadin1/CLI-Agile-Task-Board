@@ -4,8 +4,12 @@
 #include <iomanip>
 #include <algorithm>
 #include <conio.h>
+#include <User.h>
 
 using namespace std;
+
+User *CURRUSER = new User(1, "", "");
+
 void displayer(vector<Task> tasks)
 {
     moveCursor(2, 1);
@@ -143,7 +147,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             switch (selectedButton)
             {
             case 0:
-                // show my task & won't end unless back is clicked
+                // show my task & won't end unless escape is clicked
                 system("cls");
                 displayer(tasks);
                 while (_getch() != 27)
@@ -156,10 +160,26 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                 displayButtons(selectedButton);
                 break;
             case 1:
-                // Handle "Other Person" selection
+                // show other person tasks & won't end unless escape is clicked
+                system("cls");
+                displayer(tasks);
+                while (_getch() != 27)
+                {
+                    continue;
+                }
+                // show old board
+                system("cls");
+                displayer(tasks);
+                displayButtons(selectedButton);
                 break;
             case 2:
-                // Handle "Move to Next State" selection
+                // show other person tasks & won't end unless escape is clicked
+                system("cls");
+                // call move to next state function
+                // show old board
+                system("cls");
+                displayer(tasks);
+                displayButtons(selectedButton);
                 break;
             }
         }
