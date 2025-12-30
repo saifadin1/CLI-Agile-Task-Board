@@ -24,3 +24,11 @@ void resetColor()
 {
     cout << "\033[0m";
 }
+
+void relativeCursor(int up, int down, int right, int left)
+{
+    cout << "\033[" << up << "A";
+    cout << "\033[" << down << "B";
+    cout << "\033[" << right << "C";
+    cout << "\033[" << left << "D";
+}
