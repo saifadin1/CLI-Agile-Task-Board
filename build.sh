@@ -38,6 +38,7 @@ echo -e "${BOLD}🚀  Compiling sources...${RESET}"
 g++ src/*.cpp \
     src/core/*.cpp \
     src/database/*.cpp \
+    src/utils/*.cpp \
     -x c lib/sqlite3/sqlite3.c \
     -I include \
     -I include/core \
