@@ -2,8 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <unistd.h>
-#include <termios.h>
 
 using namespace std;
 
