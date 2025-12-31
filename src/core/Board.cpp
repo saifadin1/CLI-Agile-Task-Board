@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <conio.h>
 #include <User.h>
+#include "taskDAO.h"
 
 using namespace std;
 
@@ -84,7 +85,7 @@ void displayer(vector<Task> tasks)
     }
 }
 
-void displayButtons(int selectedButton = 0)
+void displayButtons(int selectedButton = 0,string userIdInput="", string taskIdInput="")
 {
     // Store current cursor position and move to buttons area
     moveCursor(20, 1);
@@ -105,28 +106,35 @@ void displayButtons(int selectedButton = 0)
     {
         setColor(30, 47);
     }
-    cout << "[ Other Person ]" << endl;
+    cout << "[ Other Person ]"; 
+    cout << "  User ID: [";
+    cout << setw(5) << left << userIdInput;
+    cout << "]" << endl;
     resetColor();
-
     // Button 3
     relativeCursor(0, 1, 0, 0);
     if (selectedButton == 2)
     {
         setColor(30, 47);
     }
-    cout << "[ Move to Next State ]" << endl;
+    cout << "[ Move to Next State ]" ;
+    cout << "  Task ID: [";
+    cout << setw(5) << left << taskIdInput;
+    cout << "]" << endl;
     resetColor();
 }
 void handleNavigation(vector<Task> tasks, int selectedButton = 0)
 {
     bool buttonsDisplayed = false;
-
+    string userIdInput = "";
+    string taskIdInput = "";
+    TaskDAO dao;
     while (true)
     {
         // Display buttons only once at the beginning
         if (!buttonsDisplayed)
         {
-            displayButtons(selectedButton);
+            displayButtons(selectedButton,userIdInput,taskIdInput);
             buttonsDisplayed = true;
         }
 
@@ -139,7 +147,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
         else if (key == '\t') // Tab key
         {
             selectedButton = (selectedButton + 1) % 3;
-            displayButtons(selectedButton); // Redraw buttons with new selection
+            displayButtons(selectedButton,userIdInput,taskIdInput); // Redraw buttons with new selection
         }
         else if (key == '\r' || key == '\n') // Enter key
         {
@@ -147,39 +155,67 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             switch (selectedButton)
             {
             case 0:
-                // show my task & won't end unless escape is clicked
-                system("cls");
-                displayer(tasks);
-                while (_getch() != 27)
                 {
-                    continue;
+                    // show my task & won't end unless escape is clicked
+                    vector<Task> myTasks = dao.selectTasksByUserId(CURRUSER->getId());
+                    system("cls");
+                    displayer(myTasks);
+                    while (_getch() != 27)
+                    {
+                        continue;
+                    }
+                    // show old board
+                    system("cls");
+                    displayer(tasks);
+                    displayButtons(selectedButton,userIdInput,taskIdInput);
+                    break;
                 }
-                // show old board
-                system("cls");
-                displayer(tasks);
-                displayButtons(selectedButton);
-                break;
             case 1:
-                // show other person tasks & won't end unless escape is clicked
-                system("cls");
-                displayer(tasks);
-                while (_getch() != 27)
                 {
-                    continue;
+                    // show other person tasks & won't end unless escape is clicked
+                    if (userIdInput.empty())
+                    {
+                        // Show error or do nothing if no ID entered
+                        break;
+                    }
+
+                    int userId =  stoi(userIdInput);
+                    vector<Task> otherPersonTasks = dao.selectTasksByUserId(userId);
+                    system("cls");
+                    displayer(otherPersonTasks);
+                    while (_getch() != 27)
+                    {
+                        continue;
+                    }
+                    // show old board
+                    userIdInput="";
+                    taskIdInput="";
+                    system("cls");
+                    displayer(tasks);
+                    displayButtons(selectedButton,userIdInput,taskIdInput);
+                    break;
                 }
-                // show old board
+            case 2: /// Move Next State
+                if (taskIdInput.empty())
+                {
+                    // Show error or do nothing if no ID entered
+                    break;
+                }
+                int taskId = stoi(taskIdInput);
+                TaskDAO dao;
+                auto task = dao.selectTask(taskId);
+                if(task==nullptr){
+                    // todo: Show error message
+                }
                 system("cls");
-                displayer(tasks);
-                displayButtons(selectedButton);
-                break;
-            case 2:
-                // show other person tasks & won't end unless escape is clicked
-                system("cls");
+                cout<<"Task Moved Correctly\n";
                 // call move to next state function
                 // show old board
+                userIdInput="";
+                taskIdInput="";
                 system("cls");
                 displayer(tasks);
-                displayButtons(selectedButton);
+                displayButtons(selectedButton,userIdInput,taskIdInput);
                 break;
             }
         }
@@ -189,12 +225,33 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             if (key == 72)  // Up arrow
             {
                 selectedButton = (selectedButton - 1 + 3) % 3;
-                displayButtons(selectedButton);
+                displayButtons(selectedButton,userIdInput,taskIdInput);
             }
             else if (key == 80) // Down arrow
             {
                 selectedButton = (selectedButton + 1) % 3;
-                displayButtons(selectedButton);
+                displayButtons(selectedButton,userIdInput,taskIdInput);
+            }
+        }
+        else if (selectedButton == 1 || selectedButton == 2) // Handle text input for buttons 2 and 3
+        {
+            string* currentInput = (selectedButton == 1) ? &userIdInput : &taskIdInput;
+            
+            if (key >= '0' && key <= '9') // Number keys
+            {
+                if (currentInput->length() < 5) // Limit to 5 digits
+                {
+                    *currentInput += key;
+                    displayButtons(selectedButton, userIdInput, taskIdInput);
+                }
+            }
+            else if (key == 8) // Backspace
+            {
+                if (!currentInput->empty())
+                {
+                    currentInput->pop_back();
+                    displayButtons(selectedButton, userIdInput, taskIdInput);
+                }
             }
         }
     }

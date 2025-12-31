@@ -12,6 +12,7 @@ using namespace std;
 TaskDAO::TaskDAO()
 {
     db = DatabaseManager::getInstance();
+    db->connect();
 }
 
 TaskDAO::~TaskDAO()
@@ -63,6 +64,36 @@ User* TaskDAO::selectUser(int _userId)
         if(result.size() > 0)
         {
             return new User(result[0]);
+        }
+    }
+    return nullptr;
+}
+
+vector<Task> TaskDAO::selectAllTasks()
+{
+    string query = "SELECT * FROM task";
+    vector<Task> result;
+    db->select(query.c_str(), result);
+    return result;
+}
+
+vector<Task> TaskDAO::selectTasksByUserId(int _userId)
+{
+    string query = "SELECT * FROM task WHERE assigneeId = " + to_string(_userId);
+    vector<Task> result;
+    db->select(query.c_str(), result);
+    return result;
+}
+
+Task* TaskDAO::selectTask(int _taskId)
+{
+    string query = "SELECT * FROM task WHERE id = " + to_string(_taskId);
+    vector<Task> result;
+    if(db->select(query.c_str(), result)) 
+    {
+        if(!result.empty())
+        {
+            return new Task(result[0]);
         }
     }
     return nullptr;
