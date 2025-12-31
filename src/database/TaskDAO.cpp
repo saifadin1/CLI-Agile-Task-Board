@@ -12,10 +12,12 @@ using namespace std;
 TaskDAO::TaskDAO()
 {
     db = DatabaseManager::getInstance();
+    db->connect();
 }
 
 TaskDAO::~TaskDAO()
 {
+    db->disconnect();
 }
 
 bool TaskDAO::updateUser(const User& _user)
@@ -57,6 +59,21 @@ bool TaskDAO::deleteTask(const Task& _task)
 User* TaskDAO::selectUser(int _userId)
 {
     string query = "SELECT id, userName, hashedPassword FROM user WHERE id = " + to_string(_userId);
+    vector<User> result;
+    if(db->select(query.c_str(), result))
+    {
+        if(result.size() > 0)
+        {
+            return new User(result[0]);
+        }
+    }
+    return nullptr;
+}
+
+User* TaskDAO::selectUser(string _userName, string _hashedPassword)
+{
+    string query = "SELECT id, userName, hashedPassword FROM user WHERE userName = '" + _userName + "' AND hashedPassword = '" + _hashedPassword + "'";
+
     vector<User> result;
     if(db->select(query.c_str(), result))
     {

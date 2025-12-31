@@ -10,7 +10,6 @@
 #include "DatabaseManager.h"
 
 using namespace std;
-using namespace std::chrono;
 
 DatabaseManager* DatabaseManager::instance = nullptr;
 
