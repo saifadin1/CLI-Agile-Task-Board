@@ -50,29 +50,34 @@ void displayer(vector<Task> tasks)
         moveCursor(6 + i, 1);
 
         // TODO column
-        setColor(31, 40); // Red for TODO
-        cout << setw(28) << left;
         if (i < todoTasks.size())
         {
-            cout << (to_string(todoTasks[i].getId()) + ": " + todoTasks[i].getTitle().substr(0, 24));
+            setColor(31); // Red for TODO
+            cout << setw(28) << left << (to_string(todoTasks[i].getId()) + ": " + todoTasks[i].getTitle().substr(0, 24));
+        }
+        else
+        {
+            cout << setw(28) << " ";
         }
         cout << "  ";
 
         // IN PROGRESS column
-        setColor(33, 40); // Yellow for IN PROGRESS
-        cout << setw(28) << left;
         if (i < inProgressTasks.size())
         {
-            cout << (to_string(inProgressTasks[i].getId()) + ": " + inProgressTasks[i].getTitle().substr(0, 24));
+            setColor(33); // Yellow for IN PROGRESS
+            cout << setw(28) << left << (to_string(inProgressTasks[i].getId()) + ": " + inProgressTasks[i].getTitle().substr(0, 24));
+        }
+        else
+        {
+            cout << setw(28) << " ";
         }
         cout << "  ";
 
         // DONE column
-        setColor(32, 40); // Green for DONE
-        cout << setw(28) << left;
         if (i < doneTasks.size())
         {
-            cout << (to_string(doneTasks[i].getId()) + ": " + doneTasks[i].getTitle().substr(0, 24));
+            setColor(32); // Green for DONE
+            cout << setw(28) << left << (to_string(doneTasks[i].getId()) + ": " + doneTasks[i].getTitle().substr(0, 24));
         }
         resetColor();
         cout << endl;
@@ -125,7 +130,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             buttonsDisplayed = true;
         }
 
-        char key = getch(); // Use getch() instead of getche() to avoid echoing
+        char key = _getch(); // Use _getch() instead of getche() to avoid echoing
 
         if (key == 27) // Escape key
         {
@@ -145,7 +150,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                 // show my task & won't end unless escape is clicked
                 system("cls");
                 displayer(tasks);
-                while (getch() != 27)
+                while (_getch() != 27)
                 {
                     continue;
                 }
@@ -158,7 +163,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                 // show other person tasks & won't end unless escape is clicked
                 system("cls");
                 displayer(tasks);
-                while (getch() != 27)
+                while (_getch() != 27)
                 {
                     continue;
                 }
@@ -180,8 +185,8 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
         }
         else if (key == -32 || key == 0) // Arrow keys (Windows specific)
         {
-            key = getch(); // Get the actual arrow key code
-            if (key == 72) // Up arrow
+            key = _getch(); // Get the actual arrow key code
+            if (key == 72)  // Up arrow
             {
                 selectedButton = (selectedButton - 1 + 3) % 3;
                 displayButtons(selectedButton);
