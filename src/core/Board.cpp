@@ -153,10 +153,24 @@ void displayButtons(int selectedButton = 0, string userInput = "")
 void showMessage(string mesg, bool flag)
 {
     /// UI for Message
-    char key = _getch();
+    system("cls");
+    moveCursor(5, 40);
+    if (flag)
+    {
+        setColor(32, 40);
+        cout << mesg;
+    }
+    else
+    {
+        setColor(31, 40);
+        cout << "Error: " << mesg;
+    }
+    cout << endl
+         << "Press Enter to continue..." << endl;
+    char key = getch();
     while (key != '\r' && key != '\n')
     {
-        key = _getch();
+        key = getch();
         continue;
     }
 }
@@ -181,7 +195,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             buttonsDisplayed = true;
         }
 
-        char key = _getch(); // Use _getch() instead of getche() to avoid echoing
+        char key = getch(); // Use getch() instead of getche() to avoid echoing
 
         if (key == 27) // Escape key
         {
@@ -204,7 +218,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                 vector<Task> myTasks = dao.selectTasksByUserId(CURRUSER->getId());
                 system("cls");
                 displayer(myTasks);
-                while (_getch() != 27)
+                while (getch() != 27)
                 {
                     continue;
                 }
@@ -227,7 +241,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                 vector<Task> otherPersonTasks = dao.selectTasksByUserId(userId);
                 system("cls");
                 displayer(otherPersonTasks);
-                while (_getch() != 27)
+                while (getch() != 27)
                 {
                     continue;
                 }
@@ -299,8 +313,8 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
         }
         else if (key == -32 || key == 0) // Arrow keys (Windows specific)
         {
-            key = _getch(); // Get the actual arrow key code
-            if (key == 72)  // Up arrow
+            key = getch(); // Get the actual arrow key code
+            if (key == 72) // Up arrow
             {
                 selectedButton = (selectedButton - 1 + 5) % 5;
                 userInput = "";
