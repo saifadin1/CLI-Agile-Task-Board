@@ -85,7 +85,7 @@ void displayer(vector<Task> tasks)
     }
 }
 
-void displayButtons(int selectedButton = 0,string userIdInput="", string taskIdInput="")
+void displayButtons(int selectedButton = 0,string userInput="")
 {
     // Store current cursor position and move to buttons area
     moveCursor(20, 1);
@@ -108,7 +108,9 @@ void displayButtons(int selectedButton = 0,string userIdInput="", string taskIdI
     }
     cout << "[ Other Person ]"; 
     cout << "  User ID: [";
-    cout << setw(5) << left << userIdInput;
+    cout << setw(5) << left;
+    if(selectedButton==1)
+        cout  << userInput;
     cout << "]" << endl;
     resetColor();
     // Button 3
@@ -119,22 +121,63 @@ void displayButtons(int selectedButton = 0,string userIdInput="", string taskIdI
     }
     cout << "[ Move to Next State ]" ;
     cout << "  Task ID: [";
-    cout << setw(5) << left << taskIdInput;
+    cout << setw(5) << left;
+    if(selectedButton==2)
+        cout << userInput;
     cout << "]" << endl;
     resetColor();
+    // Button 4
+    relativeCursor(0, 1, 0, 0);
+    if (selectedButton == 3)
+    {
+        setColor(30, 47);
+    }
+    cout << "[ Task Details ]" ;
+    cout << "  Task ID: [";
+    cout << setw(5) << left;
+    if(selectedButton==3) 
+        cout << userInput;
+    cout << "]" << endl;
+    resetColor();
+
+    // Button 5
+    relativeCursor(0, 1, 0, 0);
+    if (selectedButton == 4)
+    {
+        setColor(30, 47);
+    }
+    cout << "[ Task Form ]" ;
+    cout << endl;
+    resetColor();
+}
+void showMessage(string mesg,bool flag)
+{
+    /// UI for Message
+    char key=_getch();
+    while (key != '\r' && key != '\n')
+    {
+        key=_getch();
+        continue;
+    }
+    
+}
+TaskStatus moveStatus(TaskStatus ts){
+    if(ts==TaskStatus::ToDo)
+        return TaskStatus::InProgress;
+    else
+        return TaskStatus::Done;
 }
 void handleNavigation(vector<Task> tasks, int selectedButton = 0)
 {
     bool buttonsDisplayed = false;
-    string userIdInput = "";
-    string taskIdInput = "";
+    string userInput = "";
     TaskDAO dao;
     while (true)
     {
         // Display buttons only once at the beginning
         if (!buttonsDisplayed)
         {
-            displayButtons(selectedButton,userIdInput,taskIdInput);
+            displayButtons(selectedButton,userInput);
             buttonsDisplayed = true;
         }
 
@@ -146,8 +189,9 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
         }
         else if (key == '\t') // Tab key
         {
-            selectedButton = (selectedButton + 1) % 3;
-            displayButtons(selectedButton,userIdInput,taskIdInput); // Redraw buttons with new selection
+            selectedButton = (selectedButton + 1) % 5;
+            userInput="";
+            displayButtons(selectedButton,userInput); // Redraw buttons with new selection
         }
         else if (key == '\r' || key == '\n') // Enter key
         {
@@ -167,19 +211,19 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                     // show old board
                     system("cls");
                     displayer(tasks);
-                    displayButtons(selectedButton,userIdInput,taskIdInput);
+                    displayButtons(selectedButton,userInput);
                     break;
                 }
             case 1:
                 {
                     // show other person tasks & won't end unless escape is clicked
-                    if (userIdInput.empty())
+                    if (userInput.empty())
                     {
                         // Show error or do nothing if no ID entered
                         break;
                     }
 
-                    int userId =  stoi(userIdInput);
+                    int userId =  stoi(userInput);
                     vector<Task> otherPersonTasks = dao.selectTasksByUserId(userId);
                     system("cls");
                     displayer(otherPersonTasks);
@@ -188,35 +232,63 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                         continue;
                     }
                     // show old board
-                    userIdInput="";
-                    taskIdInput="";
+                    userInput="";
                     system("cls");
                     displayer(tasks);
-                    displayButtons(selectedButton,userIdInput,taskIdInput);
+                    displayButtons(selectedButton,userInput);
                     break;
                 }
             case 2: /// Move Next State
-                if (taskIdInput.empty())
                 {
-                    // Show error or do nothing if no ID entered
+                    if (userInput.empty())
+                    {
+                        break;
+                    }
+                    int taskId = stoi(userInput);
+                    auto task = dao.selectTask(taskId);
+                    if(task==nullptr){
+                        showMessage("No Task with this Id",0);
+                    }else{
+                        task->setStatus(moveStatus(task->getStatus()));
+                        dao.updateTask(*task);
+                        tasks=dao.selectAllTasks();
+                        showMessage("Task Moved Correctly\n",1);
+                    }
+                    // show old board
+                    userInput="";
+                    system("cls");
+                    displayer(tasks);
+                    displayButtons(selectedButton,userInput);
                     break;
                 }
-                int taskId = stoi(taskIdInput);
-                TaskDAO dao;
-                auto task = dao.selectTask(taskId);
-                if(task==nullptr){
-                    // todo: Show error message
+                case 3: /// Show Task Details (Saif)
+                {
+                    if (userInput.empty())
+                    {
+                        break;
+                    }
+                    int taskId = stoi(userInput);
+                    auto task = dao.selectTask(taskId);
+                    if(task==nullptr){
+                        showMessage("No Task with this Id",0);
+                    }else{
+                        // Call Saif Function
+                    }
+                    // show old board
+                    userInput="";
+                    system("cls");
+                    displayer(tasks);
+                    displayButtons(selectedButton,userInput);
+                    break;
                 }
-                system("cls");
-                cout<<"Task Moved Correctly\n";
-                // call move to next state function
-                // show old board
-                userIdInput="";
-                taskIdInput="";
-                system("cls");
-                displayer(tasks);
-                displayButtons(selectedButton,userIdInput,taskIdInput);
-                break;
+                case 4: /// Task Form (Fahi)
+                {
+                    // Call Fathi Function
+                    system("cls");
+                    displayer(tasks);
+                    displayButtons(selectedButton,userInput);
+                    break;
+                }
             }
         }
         else if (key == -32 || key == 0) // Arrow keys (Windows specific)
@@ -224,25 +296,27 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             key = _getch(); // Get the actual arrow key code
             if (key == 72)  // Up arrow
             {
-                selectedButton = (selectedButton - 1 + 3) % 3;
-                displayButtons(selectedButton,userIdInput,taskIdInput);
+                selectedButton = (selectedButton - 1 + 5) % 5;
+                userInput="";
+                displayButtons(selectedButton,userInput);
             }
             else if (key == 80) // Down arrow
             {
-                selectedButton = (selectedButton + 1) % 3;
-                displayButtons(selectedButton,userIdInput,taskIdInput);
+                selectedButton = (selectedButton + 1) % 5;
+                userInput="";
+                displayButtons(selectedButton,userInput);
             }
         }
-        else if (selectedButton == 1 || selectedButton == 2) // Handle text input for buttons 2 and 3
+        else if (selectedButton == 1 || selectedButton == 2 || selectedButton==3) // Handle text input for buttons 2 and 3
         {
-            string* currentInput = (selectedButton == 1) ? &userIdInput : &taskIdInput;
+            string* currentInput = &userInput;
             
             if (key >= '0' && key <= '9') // Number keys
             {
                 if (currentInput->length() < 5) // Limit to 5 digits
                 {
                     *currentInput += key;
-                    displayButtons(selectedButton, userIdInput, taskIdInput);
+                    displayButtons(selectedButton, userInput);
                 }
             }
             else if (key == 8) // Backspace
@@ -250,7 +324,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                 if (!currentInput->empty())
                 {
                     currentInput->pop_back();
-                    displayButtons(selectedButton, userIdInput, taskIdInput);
+                    displayButtons(selectedButton, userInput);
                 }
             }
         }
@@ -268,6 +342,3 @@ void Board::showTaskDetails(Task ts)
 {
 }
 
-void Board::showError(string mesg)
-{
-}
