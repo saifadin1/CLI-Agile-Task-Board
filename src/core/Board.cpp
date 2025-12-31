@@ -18,13 +18,26 @@ void displayer(vector<Task> tasks)
     cout << "                                       AGILE BOARD                                       ";
     resetColor();
 
+    // Top border
+    moveCursor(3, 1);
+    cout << "+------------------------------+------------------------------+------------------------------+";
+
     // Column headers
     moveCursor(4, 1);
     setColor(30, 47); // Black text on white background
+    cout << "|";
     cout << setw(30) << left << "TODO";
+    cout << "|";
+    setColor(30, 47);
     cout << setw(30) << left << "IN PROGRESS";
+    cout << "|";
+    setColor(30, 47);
     cout << setw(30) << left << "DONE";
+    cout << "|";
     resetColor();
+    // Header separator
+    moveCursor(5, 1);
+    cout << "+------------------------------+------------------------------+------------------------------+";
 
     // Separate tasks by status
     vector<Task> todoTasks, inProgressTasks, doneTasks;
@@ -49,40 +62,51 @@ void displayer(vector<Task> tasks)
     for (int i = 0; i < maxRows; i++)
     {
         moveCursor(6 + i, 1);
+        cout << "|";
 
         // TODO column
         if (i < todoTasks.size())
         {
             setColor(31, 40); // Red for TODO
             cout << setw(28) << left << (to_string(todoTasks[i].getId()) + ": " + todoTasks[i].getTitle().substr(0, 24));
+            resetColor();
         }
         else
         {
             cout << setw(28) << " ";
         }
-        cout << "  ";
+        cout << "  |";
 
         // IN PROGRESS column
         if (i < inProgressTasks.size())
         {
             setColor(33, 40); // Yellow for IN PROGRESS
             cout << setw(28) << left << (to_string(inProgressTasks[i].getId()) + ": " + inProgressTasks[i].getTitle().substr(0, 24));
+            resetColor();
         }
         else
         {
             cout << setw(28) << " ";
         }
-        cout << "  ";
+        cout << "  |";
 
         // DONE column
         if (i < doneTasks.size())
         {
             setColor(32, 40); // Green for DONE
             cout << setw(28) << left << (to_string(doneTasks[i].getId()) + ": " + doneTasks[i].getTitle().substr(0, 24));
+            resetColor();
         }
-        resetColor();
-        cout << endl;
+        else
+        {
+            cout << setw(28) << " ";
+        }
+        cout << "  |";
     }
+
+    // Bottom border
+    moveCursor(6 + maxRows, 1);
+    cout << "+------------------------------+------------------------------+------------------------------+";
 }
 
 void displayButtons(int selectedButton = 0, string userInput = "")
