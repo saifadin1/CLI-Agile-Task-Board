@@ -8,7 +8,6 @@ class TaskDetails {
         TaskDetails();
         ~TaskDetails();
 
-        void displayTaskInfo(int taskId) const;
-        void backButton() const;
-        void clearScreen() const;
+        static void displayTaskInfo(int taskId);
+        static void clearScreen();
 };

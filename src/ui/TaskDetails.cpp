@@ -6,6 +6,7 @@
 #include "TaskStatus.h"
 #include "Task.h"
 #include "Date.h"
+#include <conio.h>
 
 TaskDetails::TaskDetails() {}
 TaskDetails::~TaskDetails() {}
@@ -40,27 +41,24 @@ void printCentered(string text, int width) {
     cout << "| " << string(padding, ' ') << text << string(width - padding - text.length(), ' ') << " |" << endl;
 }
 
-void TaskDetails::displayTaskInfo(int taskId) const {
+void TaskDetails::displayTaskInfo(int taskId) {
     clearScreen();
 
-
-
-    // 1. FETCH THE TASK (Mock logic - replace with your DAO call)
-    // Task task = taskDAO.getTaskById(taskId);
-    // For now, I'll create a dummy task to show the visualization
+    // 1. FETCH THE TASK 
     Date d = {2025, 12, 30};
     Task task(taskId, "Fix Login Bug", "The submit button crashes the app when clicked.", d, Priority::High, TaskStatus::InProgress, 5);
 
     // 2. DEFINE WIDTHS
     const int LABEL_WIDTH = 15;
     const int VALUE_WIDTH = 50;
-    const int TOTAL_WIDTH = LABEL_WIDTH + VALUE_WIDTH + 3; // +3 for separators "| " and " |"
+    const int TOTAL_WIDTH = LABEL_WIDTH + VALUE_WIDTH + 3; 
 
     // 3. DRAW THE TABLE
     cout << endl;
     cout << "+" << string(TOTAL_WIDTH, '-') << "+" << endl;
     
     // Header
+    // Assuming printCentered is a helper function you have defined elsewhere
     printCentered("TASK DETAILS (ID: " + to_string(task.getId()) + ")", TOTAL_WIDTH);
     
     cout << "+" << string(TOTAL_WIDTH, '-') << "+" << endl;
@@ -69,7 +67,6 @@ void TaskDetails::displayTaskInfo(int taskId) const {
     cout << "| " << left << setw(LABEL_WIDTH) << "Title" 
          << "| " << setw(VALUE_WIDTH) << task.getTitle() << " |" << endl;
     
-    // Separator
     cout << "+" << string(LABEL_WIDTH + 1, '-') << "+" << string(VALUE_WIDTH + 1, '-') << "+" << endl;
 
     // Row 2: Status
@@ -81,9 +78,8 @@ void TaskDetails::displayTaskInfo(int taskId) const {
          << "| " << setw(VALUE_WIDTH) << priorityToString(task.getPriority()) << " |" << endl;
 
     // Row 4: Due Date
-    // assuming your Date object overloads << or has a toString method
     cout << "| " << left << setw(LABEL_WIDTH) << "Due Date" 
-         << "| " << setw(VALUE_WIDTH) << "2025-12-30" /* replace with task.getDueDate() */ << " |" << endl; 
+         << "| " << setw(VALUE_WIDTH) << "2025-12-30" << " |" << endl; 
 
     // Row 5: Assignee
     cout << "| " << left << setw(LABEL_WIDTH) << "Assignee ID" 
@@ -91,21 +87,30 @@ void TaskDetails::displayTaskInfo(int taskId) const {
 
     cout << "+" << string(TOTAL_WIDTH, '-') << "+" << endl;
 
-    // Description Box (Separate because it might be long)
+    // Description Box
     cout << "| " << left << setw(TOTAL_WIDTH) << "Description:" << " |" << endl;
     cout << "| " << left << setw(TOTAL_WIDTH) << task.getDescription() << " |" << endl;
     
     cout << "+" << string(TOTAL_WIDTH, '-') << "+" << endl;
     cout << endl;
-}
 
-void TaskDetails::backButton() const {
+    // --- NEW CODE STARTS HERE ---
     
+    cout << "Press [ESC] to return..." << endl;
 
+    while (true) {
+        // _getch() reads a character directly from the console without buffer
+        int key = _getch();
+
+        // 27 is the ASCII value for the ESCAPE key
+        if (key == 27) {
+            break; // Breaks the loop, reaching the end of the void function
+        }
+    }
 }
 
 
-void TaskDetails::clearScreen() const {
+void TaskDetails::clearScreen() {
     system("cls");
 }
 
