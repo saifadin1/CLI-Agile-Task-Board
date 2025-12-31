@@ -41,6 +41,10 @@ void printCentered(string text, int width) {
 }
 
 void TaskDetails::displayTaskInfo(int taskId) const {
+    clearScreen();
+
+
+
     // 1. FETCH THE TASK (Mock logic - replace with your DAO call)
     // Task task = taskDAO.getTaskById(taskId);
     // For now, I'll create a dummy task to show the visualization
@@ -98,5 +102,10 @@ void TaskDetails::displayTaskInfo(int taskId) const {
 void TaskDetails::backButton() const {
     
 
+}
+
+
+void TaskDetails::clearScreen() const {
+    system("cls");
 }
 

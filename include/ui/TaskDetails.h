@@ -10,4 +10,5 @@ class TaskDetails {
 
         void displayTaskInfo(int taskId) const;
         void backButton() const;
+        void clearScreen() const;
 };
