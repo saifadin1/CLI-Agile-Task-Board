@@ -1,13 +1,9 @@
 #include <iostream>
 #include "DatabaseSeeder.h"
-<<<<<<< HEAD
 #include "DatabaseManager.h"
 #include "TaskForm.h"
-
-    == == ==
-    =
 #include "Board.h"
-        >>>>>>> feat/BOARD using namespace std;
+using namespace std;
 
 int main()
 {
