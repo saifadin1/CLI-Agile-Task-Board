@@ -79,7 +79,7 @@ bool TaskForm::userExists(int assigneeId)
 string TaskForm::getInput(const string& prompt)
 {
     string input;
-    cout << CYAN << "  → " << RESET << prompt << ": ";
+    cout << CYAN << " -> " << RESET << prompt << ": ";
     getline(cin, input);
     return input;
 }

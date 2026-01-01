@@ -326,7 +326,6 @@ void Board::handleNavigation(vector<Task> tasks, int selectedButton)
                 }
                 else
                 {
-                    cout << "erfgedrgedrgergerg erge\n";
                     TaskDetails::displayTaskInfo(taskId);
                     // Call Saif Function
                 }
