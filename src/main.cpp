@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "Auth.h"
 #include "User.h"
+#include "TaskDetails.h"
 
 using namespace std;
 
@@ -39,6 +40,10 @@ int main()
         cout << "The Current user is: " << CURRENTUSER->getUserName();
     else
         cout << "ay 7aga\n";
+    TaskDetails taskDetails;
+    taskDetails.displayTaskInfo(1);
+    
+
 
     cout << "\n";
     cout << "  ==========================================================\n";
