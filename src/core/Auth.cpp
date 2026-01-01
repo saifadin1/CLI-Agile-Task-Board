@@ -108,9 +108,8 @@ bool Auth::signup(string& userName, string& password)
     myUser = _DAO->selectUser(userName, password);
     if(myUser == nullptr)
     {
-        if(_DAO->createUser(User(0, userName, password)))
-            cout << "ay 7aga from creation\n";
-        return true;
+        myUser = new User(0, userName, password);
+        return _DAO->createUser(*myUser);
     }
     
     return false;
@@ -280,7 +279,10 @@ User* Auth::start()
                     {
                         hashing(passWord);
                         if(signup(userName, passWord))
+                        {
+                            cout << "a new user\n";
                             return myUser;
+                        }
                         else
                         {
                             system("cls");

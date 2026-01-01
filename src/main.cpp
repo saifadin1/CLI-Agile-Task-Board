@@ -7,6 +7,13 @@ using namespace std;
 
 User* CURRENTUSER;
 
+/*
+    Hard coded user:
+    UserName: Hamada
+    Password: 123
+    His role to be the team lead
+*/
+
 int main()
 {
 
@@ -14,7 +21,10 @@ int main()
 
     CURRENTUSER = auth.start();
 
-    cout << "The Current user is: " << CURRENTUSER->getUserName();
+    if(CURRENTUSER != nullptr)
+        cout << "The Current user is: " << CURRENTUSER->getUserName();
+    else
+        cout << "ay 7aga\n";
 
     return 0;
 }
