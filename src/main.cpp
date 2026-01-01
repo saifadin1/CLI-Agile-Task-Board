@@ -21,27 +21,9 @@ User* CURRENTUSER;
 int main()
 {
 
-    // DatabaseSeeder seeder;
-
-    // if (seeder.initializeDatabase())
-    // {
-    //     cout << endl << "✅ Database setup complete!" << endl;
-    // }
-    // else
-    // {
-    //     cout << endl << "❌ Database setup failed!" << endl;
-    //     return 1;
-    // }
     Auth auth;
 
     CURRENTUSER = auth.start();
-
-    if(CURRENTUSER != nullptr)
-        cout << "The Current user is: " << CURRENTUSER->getUserName();
-    else
-        cout << "ay 7aga\n";
-    TaskDetails taskDetails;
-    taskDetails.displayTaskInfo(1);
     
 
 
@@ -51,21 +33,14 @@ int main()
     cout << "  ==========================================================\n";
     cout << "\n";
 
-    TaskForm taskForm;
-    taskForm.run();
+    Board board(CURRENTUSER);
 
-    // if (seeder.initializeDatabase())
-    // {
-    //     cout << endl << "✅ Database setup complete!" << endl;
-    // }
-    // else
-    // {
-    //     cout << endl << "❌ Database setup failed!" << endl;
-    //     return 1;
-    // }
-    Board b;
     TaskDAO dao;
-    auto tasks = dao.selectAllTasks();
-    b.displayBoard(tasks);
+    
+    board.displayBoard(dao.selectAllTasks());
+
+
+
+
     return 0;
 }

@@ -81,7 +81,7 @@ vector<Task> TaskDAO::selectAllTasks()
 vector<Task> TaskDAO::selectTasksByUserId(int _userId)
 {
     string query = "SELECT * FROM task WHERE assigneeId = " + to_string(_userId);
-    vector<Task> result;
+    vector<Task> result; 
     db->select(query.c_str(), result);
     return result;
 }

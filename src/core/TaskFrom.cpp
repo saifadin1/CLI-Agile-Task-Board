@@ -29,6 +29,11 @@ void TaskForm::clearScreen()
 #endif
 }
 
+TaskForm::TaskForm()
+{
+}
+
+
 void TaskForm::printLine()
 {
     cout << CYAN << "  " << string(58, '-') << RESET << "\n";
@@ -38,7 +43,7 @@ void TaskForm::displayHeader()
 {
     cout << "\n";
     cout << BOLD << CYAN << "  +======================================================+\n";
-    cout << "  |            TASK MANAGEMENT SYSTEM                                    |\n";
+    cout << "  |                       ADDING TASK                                    |\n";
     cout << "  +======================================================+" << RESET << "\n";
 }
 

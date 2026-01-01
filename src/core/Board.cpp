@@ -6,10 +6,20 @@
 #include <conio.h>
 #include <User.h>
 #include "taskDAO.h"
+#include "TaskDetails.h"
+#include "TaskForm.h"
+#include "Auth.h"   
 
 using namespace std;
 
-User *CURRUSER = new User(1, "", "");
+// User *CURRUSER = new User(1, "", "");
+
+
+Board::Board(User* currentUser)
+{
+    CURRENTUSER = currentUser;
+}
+
 
 void displayer(vector<Task> tasks)
 {
@@ -112,7 +122,7 @@ void displayer(vector<Task> tasks)
 void displayButtons(int selectedButton = 0, string userInput = "")
 {
     // Store current cursor position and move to buttons area
-    moveCursor(20, 1);
+    moveCursor(27, 30);
     cout << "Navigate with Arrow Keys/Tab, Press Enter to select:" << endl;
 
     // Button 1
@@ -174,7 +184,7 @@ void displayButtons(int selectedButton = 0, string userInput = "")
     cout << endl;
     resetColor();
 }
-void showMessage(string mesg, bool flag)
+void Board::showMessage(string mesg, bool flag)
 {
     /// UI for Message
     system("cls");
@@ -205,7 +215,7 @@ TaskStatus moveStatus(TaskStatus ts)
     else
         return TaskStatus::Done;
 }
-void handleNavigation(vector<Task> tasks, int selectedButton = 0)
+void Board::handleNavigation(vector<Task> tasks, int selectedButton)
 {
     bool buttonsDisplayed = false;
     string userInput = "";
@@ -239,7 +249,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             case 0:
             {
                 // show my task & won't end unless escape is clicked
-                vector<Task> myTasks = dao.selectTasksByUserId(CURRUSER->getId());
+                vector<Task> myTasks = dao.selectTasksByUserId(CURRENTUSER->getId());
                 system("cls");
                 displayer(myTasks);
                 while (getch() != 27)
@@ -316,6 +326,8 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
                 }
                 else
                 {
+                    cout << "erfgedrgedrgergerg erge\n";
+                    TaskDetails::displayTaskInfo(taskId);
                     // Call Saif Function
                 }
                 // show old board
@@ -328,6 +340,8 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
             case 4: /// Task Form (Fahi)
             {
                 // Call Fathi Function
+                TaskForm *tf = new TaskForm();
+                tf->run();
                 system("cls");
                 displayer(tasks);
                 displayButtons(selectedButton, userInput);
@@ -377,6 +391,7 @@ void handleNavigation(vector<Task> tasks, int selectedButton = 0)
 
 void Board::displayBoard(vector<Task> tasks)
 {
+    cout << CURRENTUSER->getUserName() << endl;
     clearScreen();
     displayer(tasks);
     handleNavigation(tasks); // This will now handle displaying buttons and navigation
