@@ -6,8 +6,8 @@
 #include "TaskDAO.h"
 #include "User.h"
 #include "Task.h"
-using namespace std;
 
+using namespace std;
 
 TaskDAO::TaskDAO()
 {
@@ -17,6 +17,7 @@ TaskDAO::TaskDAO()
 
 TaskDAO::~TaskDAO()
 {
+    db->disconnect();
 }
 
 bool TaskDAO::updateUser(const User& _user)
@@ -94,6 +95,20 @@ Task* TaskDAO::selectTask(int _taskId)
         if(!result.empty())
         {
             return new Task(result[0]);
+        }
+    }
+}
+
+User* TaskDAO::selectUser(string _userName, string _hashedPassword)
+{
+    string query = "SELECT id, userName, hashedPassword FROM user WHERE userName = '" + _userName + "' AND hashedPassword = '" + _hashedPassword + "'";
+
+    vector<User> result;
+    if(db->select(query.c_str(), result))
+    {
+        if(result.size() > 0)
+        {
+            return new User(result[0]);
         }
     }
     return nullptr;

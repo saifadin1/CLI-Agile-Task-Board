@@ -3,7 +3,19 @@
 #include "DatabaseManager.h"
 #include "TaskForm.h"
 #include "Board.h"
+#include "Auth.h"
+#include "User.h"
+
 using namespace std;
+
+User* CURRENTUSER;
+
+/*
+    Hard coded user:
+    UserName: Hamada
+    Password: 123
+    His role to be the team lead
+*/
 
 int main()
 {
@@ -19,6 +31,14 @@ int main()
     //     cout << endl << "❌ Database setup failed!" << endl;
     //     return 1;
     // }
+    Auth auth;
+
+    CURRENTUSER = auth.start();
+
+    if(CURRENTUSER != nullptr)
+        cout << "The Current user is: " << CURRENTUSER->getUserName();
+    else
+        cout << "ay 7aga\n";
 
     cout << "\n";
     cout << "  ==========================================================\n";

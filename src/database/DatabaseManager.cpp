@@ -10,8 +10,6 @@
 #include "DatabaseManager.h"
 
 using namespace std;
-using namespace std::chrono;
-
 
 DatabaseManager* DatabaseManager::instance = nullptr;
 
@@ -27,6 +25,19 @@ DatabaseManager::DatabaseManager()
     dbConnection = nullptr;
 }
 
+DatabaseManager* DatabaseManager::instance = nullptr;
+
+int rc = 0;
+char* errMsg = 0;
+
+// The actual SQLite connection object
+sqlite3* dbConnection;
+
+// Private Constructor (so no one can create a second instance)
+DatabaseManager::DatabaseManager()
+{
+    dbConnection = nullptr;
+}
 
 // 1. Singleton Access
 DatabaseManager* DatabaseManager::getInstance()

@@ -44,7 +44,7 @@ public:
     vector<Task> selectAllTasks();
 
     // We are going to use this function to validate the user while login.
-    User* selectUser(string _hashedPassword, string _userName);
+    User* selectUser(string _userName, string _hashedPassword);
 };
 
 /*
