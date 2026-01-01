@@ -37,11 +37,13 @@ echo -e "${BOLD}🚀  Compiling sources...${RESET}"
 # Compile all .cpp files in src/ directory recursively
 g++ src/*.cpp \
     src/core/*.cpp \
+    src/ui/*.cpp \
     src/database/*.cpp \
     src/utils/*.cpp \
     -x c lib/sqlite3/sqlite3.c \
     -I include \
     -I include/core \
+    -I include/ui \
     -I include/database \
     -I lib/sqlite3 \
     -o "$OUTPUT"
