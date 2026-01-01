@@ -36,6 +36,7 @@ private:
     bool userExists(int assigneeId);
 
 public:
+    TaskForm();
     void run();
     void createTask();
 };
