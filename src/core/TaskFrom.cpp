@@ -89,7 +89,7 @@ int TaskForm::getIntInput(const string& prompt, int min, int max)
     int value;
     while (true)
     {
-        cout << CYAN << "  → " << RESET << prompt << " " << DIM << "(" << min << "-" << max << ")" << RESET << ": ";
+        cout << CYAN << "  -> " << RESET << prompt << " " << DIM << "(" << min << "-" << max << ")" << RESET << ": ";
         
         if (cin >> value)
         {
@@ -199,7 +199,7 @@ void TaskForm::createTask()
         {
             displayTaskSummary(title, description, year, month, day, priorityChoice, statusChoice, assigneeId);
             
-            cout << CYAN << "\n  → " << RESET << "Your choice: ";
+            cout << CYAN << "\n  -> " << RESET << "Your choice: ";
             string choice;
             getline(cin, choice);
             
