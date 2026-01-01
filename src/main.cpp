@@ -1,9 +1,13 @@
 #include <iostream>
 #include "DatabaseSeeder.h"
+<<<<<<< HEAD
 #include "DatabaseManager.h"
 #include "TaskForm.h"
 
-using namespace std;
+    == == ==
+    =
+#include "Board.h"
+        >>>>>>> feat/BOARD using namespace std;
 
 int main()
 {
@@ -19,7 +23,7 @@ int main()
     //     cout << endl << "❌ Database setup failed!" << endl;
     //     return 1;
     // }
-    
+
     cout << "\n";
     cout << "  ==========================================================\n";
     cout << "  |          CLI AGILE TASK BOARD                           |\n";
@@ -29,5 +33,18 @@ int main()
     TaskForm taskForm;
     taskForm.run();
 
+    // if (seeder.initializeDatabase())
+    // {
+    //     cout << endl << "✅ Database setup complete!" << endl;
+    // }
+    // else
+    // {
+    //     cout << endl << "❌ Database setup failed!" << endl;
+    //     return 1;
+    // }
+    Board b;
+    TaskDAO dao;
+    auto tasks = dao.selectAllTasks();
+    b.displayBoard(tasks);
     return 0;
 }
