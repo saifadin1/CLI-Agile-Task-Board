@@ -8,18 +8,16 @@
 #include "taskDAO.h"
 #include "TaskDetails.h"
 #include "TaskForm.h"
-#include "Auth.h"   
+#include "Auth.h"
 
 using namespace std;
 
 // User *CURRUSER = new User(1, "", "");
 
-
-Board::Board(User* currentUser)
+Board::Board(User *currentUser)
 {
     CURRENTUSER = currentUser;
 }
-
 
 void displayer(vector<Task> tasks)
 {
@@ -339,8 +337,15 @@ void Board::handleNavigation(vector<Task> tasks, int selectedButton)
             case 4: /// Task Form (Fahi)
             {
                 // Call Fathi Function
-                TaskForm *tf = new TaskForm();
-                tf->run();
+                if (CURRENTUSER->getUserName() == "Hammada" || CURRENTUSER->getId() == 7)
+                {
+                    TaskForm *tf = new TaskForm();
+                    tf->run();
+                }
+                else
+                {
+                    showMessage("No Task with this Id", 0);
+                }
                 system("cls");
                 displayer(tasks);
                 displayButtons(selectedButton, userInput);
