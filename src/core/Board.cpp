@@ -391,7 +391,6 @@ void Board::handleNavigation(vector<Task> tasks, int selectedButton)
 
 void Board::displayBoard(vector<Task> tasks)
 {
-    cout << CURRENTUSER->getUserName() << endl;
     clearScreen();
     displayer(tasks);
     handleNavigation(tasks); // This will now handle displaying buttons and navigation
