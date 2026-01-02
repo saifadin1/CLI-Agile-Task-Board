@@ -11,9 +11,3 @@
 ```bash
   ./build.sh
 ```
-
-
-https://ai.studio/apps/drive/1BG18CBw_SbDHzaABk0aBrn0lV8tWetHA
-
-
-https://ai.studio/apps/drive/1TFmU5lgmNjZfaHHMTRCYmNTjzi0ktzdi
