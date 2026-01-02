@@ -3,7 +3,6 @@
 #include "Auth.h"
 #include <iostream>
 #include <conio.h>
-#include <functional>
 
 using namespace std;
 
@@ -105,11 +104,18 @@ bool Auth::login(string& userName, string& password)
 bool Auth::signup(string& userName, string& password)
 {
 
-    myUser = _DAO->selectUser(userName, password);
+    myUser =  _DAO->selectUser(userName, password);
     if(myUser == nullptr)
     {
         myUser = new User(0, userName, password);
-        return _DAO->createUser(*myUser);
+        
+        if(_DAO->createUser(*myUser))
+        {
+            myUser = _DAO->selectUser(userName, password);
+            return true;
+        }
+
+        return false;
     }
     
     return false;
@@ -280,7 +286,6 @@ User* Auth::start()
                         hashing(passWord);
                         if(signup(userName, passWord))
                         {
-                            cout << "a new user\n";
                             return myUser;
                         }
                         else

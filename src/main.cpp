@@ -6,6 +6,7 @@
 #include "Auth.h"
 #include "User.h"
 #include "TaskDetails.h"
+#include <conio.h>
 
 using namespace std;
 
@@ -23,6 +24,15 @@ int main()
     Auth auth;
 
     CURRENTUSER = auth.start();
+
+    while(CURRENTUSER == nullptr)
+    {
+        cout << "\nILEAGAL BEHAIVOR!!\nPLEASE TRY AGAIN\n";
+        _getch();
+        CURRENTUSER = auth.start();
+    }
+
+    cout << CURRENTUSER->getId() << '\n';
 
     Board board(CURRENTUSER);
 

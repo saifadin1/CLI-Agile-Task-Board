@@ -6,9 +6,15 @@
 #include "TaskStatus.h"
 #include "Task.h"
 #include "Date.h"
+#include "taskDAO.h"
 #include <conio.h>
 
-TaskDetails::TaskDetails() {}
+TaskDAO* TaskDetails::_DAO = new TaskDAO();
+
+TaskDetails::TaskDetails() 
+{
+    _DAO = new TaskDAO();
+}
 TaskDetails::~TaskDetails() {}
 
 
@@ -46,7 +52,7 @@ void TaskDetails::displayTaskInfo(int taskId) {
 
     // 1. FETCH THE TASK 
     Date d = {2025, 12, 30};
-    Task task(taskId, "Fix Login Bug", "The submit button crashes the app when clicked.", d, Priority::High, TaskStatus::InProgress, 5);
+    Task* task = _DAO->selectTask(taskId);
 
     // 2. DEFINE WIDTHS
     const int LABEL_WIDTH = 15;
@@ -59,23 +65,23 @@ void TaskDetails::displayTaskInfo(int taskId) {
     
     // Header
     // Assuming printCentered is a helper function you have defined elsewhere
-    printCentered("TASK DETAILS (ID: " + to_string(task.getId()) + ")", TOTAL_WIDTH);
+    printCentered("TASK DETAILS (ID: " + to_string(task->getId()) + ")", TOTAL_WIDTH);
     
     cout << "+" << string(TOTAL_WIDTH, '-') << "+" << endl;
 
     // Row 1: Title
     cout << "| " << left << setw(LABEL_WIDTH) << "Title" 
-         << "| " << setw(VALUE_WIDTH) << task.getTitle() << " |" << endl;
+         << "| " << setw(VALUE_WIDTH) << task->getTitle() << " |" << endl;
     
     cout << "+" << string(LABEL_WIDTH + 1, '-') << "+" << string(VALUE_WIDTH + 1, '-') << "+" << endl;
 
     // Row 2: Status
     cout << "| " << left << setw(LABEL_WIDTH) << "Status" 
-         << "| " << setw(VALUE_WIDTH) << statusToString(task.getStatus()) << " |" << endl;
+         << "| " << setw(VALUE_WIDTH) << statusToString(task->getStatus()) << " |" << endl;
 
     // Row 3: Priority
     cout << "| " << left << setw(LABEL_WIDTH) << "Priority" 
-         << "| " << setw(VALUE_WIDTH) << priorityToString(task.getPriority()) << " |" << endl;
+         << "| " << setw(VALUE_WIDTH) << priorityToString(task->getPriority()) << " |" << endl;
 
     // Row 4: Due Date
     cout << "| " << left << setw(LABEL_WIDTH) << "Due Date" 
@@ -83,13 +89,13 @@ void TaskDetails::displayTaskInfo(int taskId) {
 
     // Row 5: Assignee
     cout << "| " << left << setw(LABEL_WIDTH) << "Assignee ID" 
-         << "| " << setw(VALUE_WIDTH) << task.getAssigneeId() << " |" << endl;
+         << "| " << setw(VALUE_WIDTH) << task->getAssigneeId() << " |" << endl;
 
     cout << "+" << string(TOTAL_WIDTH, '-') << "+" << endl;
 
     // Description Box
     cout << "| " << left << setw(TOTAL_WIDTH) << "Description:" << " |" << endl;
-    cout << "| " << left << setw(TOTAL_WIDTH) << task.getDescription() << " |" << endl;
+    cout << "| " << left << setw(TOTAL_WIDTH) << task->getDescription() << " |" << endl;
     
     cout << "+" << string(TOTAL_WIDTH, '-') << "+" << endl;
     cout << endl;
