@@ -1,88 +1,108 @@
-🧩 CLI Agile Task Board
-📌 Project Overview
+# CLI Agile Task Board
 
-CLI Agile Task Board is a command-line Agile project management system built using C++ and SQLite.
-The project simulates the core functionalities of tools like Jira and HacknPlan, allowing users to manage tasks, workflows, and Agile boards through a terminal interface.
+## Project Overview
 
-This project was developed as part of a Software Engineering academic project to apply Agile concepts, UML design, and software architecture principles.
+CLI Agile Task Board is a command-line project management system built
+using C++ and SQLite.\
+It simulates Agile tools like Jira and HacknPlan, allowing users to
+manage tasks and workflows through the terminal.
 
-🚀 Features
+This project was developed as a Software Engineering academic project.
 
-Create and manage Agile tasks
+------------------------------------------------------------------------
 
-Update task status (To Do, In Progress, Done)
+## Features
 
-Store and retrieve data using SQLite
+-   Create and manage tasks\
+-   Update task status (To Do, In Progress, Done)\
+-   Store data using SQLite\
+-   Command Line Interface interaction\
+-   Agile board simulation
 
-Command Line Interface (CLI) interaction
+------------------------------------------------------------------------
 
-Agile task board simulation
+## Technologies
 
-Modular and scalable architecture
+-   C++
+-   SQLite3
 
-🛠️ Technologies Used
-💻 Programming Language
+------------------------------------------------------------------------
 
-C++
+## Tools
 
-🗄️ Database
+-   Jira (for Agile planning)
+-   Git & GitHub\
+-   UML modeling tools using Draw.io
 
-SQLite3
+------------------------------------------------------------------------
 
-🧰 Tools
+## UML Diagrams
 
-Jira (used for Agile planning and task tracking during development)
+-   Use Case Diagram\
+-   Class Diagram\
+-   Sequence Diagram
 
-Git & GitHub
+------------------------------------------------------------------------
 
-UML Modeling Tools using Draw.io
+## Project Structure
 
-📊 UML Diagrams
+    CLI-Agile-Task-Board/
+    │
+    ├── data/              # Database files
+    ├── include/           # Header files
+    ├── lib/sqlite3/        # SQLite library
+    ├── src/                # Source code
+    │
+    ├── build.sh
+    ├── build.bat
+    ├── README.md
+    └── .gitignore
 
-The system was designed using Software Engineering UML models:
+------------------------------------------------------------------------
 
-Use Case Diagram
+## How to Run
 
-Class Diagram
+### Clone Repository
 
-Sequence Diagram
-
-These diagrams helped in defining system behavior, architecture, and interactions before implementation.
-
-📂 Project Structure
-CLI-Agile-Task-Board/
-│
-├── data/              # SQLite database and data files
-├── include/           # Header files (.h)
-├── lib/sqlite3/        # SQLite3 library
-├── src/                # Source code (.cpp)
-│
-├── build.sh             # Linux/Mac build script
-├── build.bat            # Windows build script
-├── README.md
-└── .gitignore
-
-▶️ How to Run the Project
-1️⃣ Clone the repository
+``` bash
 git clone https://github.com/saifadin1/CLI-Agile-Task-Board.git
 cd CLI-Agile-Task-Board
+```
 
-2️⃣ Run using Git Bash / Linux Terminal
+### Run on Linux / Git Bash
+
+``` bash
 ./build.sh
+```
 
-3️⃣ Run on Windows
+### Run on Windows
+
+``` bash
 build.bat
+```
 
-🧠 Learning Outcomes
+------------------------------------------------------------------------
 
-Applying Agile methodology concepts in software development
+## Learning Outcomes
 
-Designing systems using UML diagrams
+-   Agile methodology concepts\
+-   Software Engineering design with UML\
+-   CLI system development\
+-   SQLite integration with C++\
+-   Team collaboration
 
-Implementing a CLI-based management system
+------------------------------------------------------------------------
 
-Working with SQLite in C++
+## Future Improvements
 
-Understanding modular software architecture
+-   Add GUI version\
+-   User roles (Admin, Developer, Tester)\
+-   Sprint and backlog management\
+-   Reports and analytics
 
-Team collaboration using Git and Jira
+------------------------------------------------------------------------
+
+## Author
+
+Mohamed Fathi Mohamed\
+Software Engineer
